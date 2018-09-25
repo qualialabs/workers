@@ -202,10 +202,9 @@ let Workers = {
   },
 
   parseCode(rawCode) {
-    let compiled = Package.ecmascript.ECMAScript.compileForShell(`(${rawCode})`),
-        code =     code = `var module = global.__Workers.module; module.importSync = module.importSync || module.import; var _module = module; var require = module.require; \n\n${compiled}`;
-        script = new vm.Script(code);
-    return script.runInThisContext();
+    const compiled = Package.ecmascript.ECMAScript.compileForShell(`(${rawCode})`);
+    const code = `var module = global.__Workers.module; module.importSync = module.importSync || module.import; var _module = module; var require = module.require; \n\n${compiled}`;
+    return new vm.Script(code).runInThisContext();
   },
 
   chunk(list, chunkSize) {
